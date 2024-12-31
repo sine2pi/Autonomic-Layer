@@ -54,10 +54,7 @@ something like this..
           else:
               self.running_loss = self.beta * self.running_loss + (1 - self.beta) * loss
   
-          # Calculate change in loss
           loss_change = loss - self.running_loss
-  
-          # Introduce thresholds for adjustments
           threshold = 0.01  # Threshold can be tuned based on your needs
   
           if loss_change < -threshold:
@@ -89,16 +86,12 @@ something like this..
       def adjust_window(self, loss, factor=1.005):
           self.adjust_counter += 1 
   
-          # Update running_loss using EWMA
           if self.running_loss is None:
               self.running_loss = loss
           else:
               self.running_loss = self.beta * self.running_loss + (1 - self.beta) * loss
   
-          # Calculate change in loss
           loss_change = loss - self.running_loss
-  
-          # Introduce thresholds for adjustments
           threshold = 0.01  # Threshold can be tuned based on your needs
   
           if loss_change < -threshold:
@@ -117,19 +110,16 @@ something like this..
           return new_window
   
       def forward(self, x):
-          # Perform model operations
+          # Perform some model operations
           output = self.main_model(x)
-          
-          # Calculate loss (assuming you have a loss function defined)
+
           loss = self.calculate_loss(output)
           
-          # Adjust hyperparameters
           new_base = self.adjust_base(loss.item())
           new_window_size = self.adjust_window(loss.item())
           
           return output
-   
-  
+     
     class YourModel(nn.Module):
         def __init__(self, config, autonomic_layer):
             super(YourModel, self).__init__()
@@ -154,11 +144,9 @@ something like this..
               labels = labels.to(logits.device).long()
               loss = loss_fct(logits.view(-1, self.config.vocab_size), labels.view(-1))
   
-              # Adjust hyperparameters based on loss
               self.autonomic_layer.adjust_base(loss.item())
               self.autonomic_layer.adjust_window(loss.item())
   
-              # Optionally, update model components if required
               self.autonomic_layer.update_base(self.autonomic_layer.base)
               self.autonomic_layer.update_window(self.autonomic_layer.window_size)
 
