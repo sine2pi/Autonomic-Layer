@@ -1,4 +1,5 @@
-Central Hub for Dynamic Auto Adjustments in Transformers
+Dynamic Auto Adjustments in Transformers
+
 The AutonomicLayer class is kind of like a central hub for dynamic auto adjustments of hyperparameters in my transformer model, featuring an in-progress meta-learner. Currently, it adjusts the base frequency (rope) and the window size of the hybrid attention block based on training loss.
 
 Note: At the moment, the adjustment mechanism is quite aggressive (set to an extreme level).
